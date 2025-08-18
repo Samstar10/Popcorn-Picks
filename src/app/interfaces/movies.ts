@@ -6,3 +6,9 @@ export type MovieSummary = {
   genre_ids?: number[];
   popularity?: number;
 };
+
+export type MoviesPageData = {
+  results: MovieSummary[];
+  page: number;
+  total_pages: number;
+};
