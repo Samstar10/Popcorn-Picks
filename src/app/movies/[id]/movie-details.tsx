@@ -30,8 +30,8 @@ export default function MovieDetailsClient({ id }: { id: string }) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const m = detailsQuery.data as any;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const genreIds = Array.isArray(m.genres)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ? m.genres.map((g: any) => g.id)
     : m.genre_ids ?? [];
 
