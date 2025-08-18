@@ -5,13 +5,14 @@ import { FavoriteButton, WatchlistButton } from "./list-buttons";
 export function MovieCard({
   movie,
 }: {
-  movie: { id: number; title: string; poster_path?: string; overview?: string };
+  movie: { id: number; title: string; poster_path?: string; overview?: string; genre_ids?: number[] };
 }) {
   const mini = {
     id: movie.id,
     title: movie.title,
     poster_path: movie.poster_path,
     overview: movie.overview,
+    genre_ids: movie.genre_ids ?? [],
   };
 
   return (

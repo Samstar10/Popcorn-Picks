@@ -1,17 +1,24 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useSession, signIn } from "next-auth/react";
+import Link from "next/link";
+
 import { useStore } from "../store";
-import { SkeletonCard } from "@/components/skeleton-card";
-import { MovieCard } from "@/components/movie-card";
 import { fetchPopular, searchMovies } from "../services/api/tmdb";
 import { MovieSummary, MoviesPageData } from "../interfaces/movies";
+
+import { SkeletonCard } from "@/components/skeleton-card";
+import { MovieCard } from "@/components/movie-card";
 import AuthButtons from "@/components/auth-buttons";
-import Link from "next/link";
+import { RecommendationsClient } from "@/features/recommendations/client";
 
 export default function MoviesPage() {
   const { query, setQuery } = useStore();
   const [page, setPage] = useState(1);
+  const { status } = useSession();
+  const isAuthed = status === "authenticated";
 
   const { data, isPending, fetchStatus, refetch } = useQuery<MoviesPageData>({
     queryKey: ["movies", query, page],
@@ -29,9 +36,9 @@ export default function MoviesPage() {
 
   return (
     <section className="space-y-6">
-      <header className="flex items-center gap-3">
+      <header className="flex items-center justify-between gap-3">
         <h1 className="text-2xl font-bold">Popcorn Picks</h1>
-        <div>
+        <div className="flex items-center gap-3">
           <input
             aria-label="Search movies"
             placeholder="Search movies"
@@ -40,7 +47,9 @@ export default function MoviesPage() {
             onChange={(e) => setQuery(e.target.value)}
           />
           <AuthButtons />
-          <Link href="/lists" className="text-sm underline">My Lists</Link>
+          <Link href="/lists" className="text-sm underline">
+            My Lists
+          </Link>
         </div>
       </header>
 
@@ -57,6 +66,21 @@ export default function MoviesPage() {
           <MovieCard key={m.id} movie={m} />
         ))}
       </div>
+
+      {!query && (
+        <>
+          {isAuthed ? (
+            <RecommendationsClient />
+          ) : (
+            <p className="text-sm text-gray-600">
+              <button onClick={() => signIn("github")} className="underline">
+                Sign in
+              </button>{" "}
+              to see personalized picks just for you.
+            </p>
+          )}
+        </>
+      )}
 
       <footer className="flex items-center gap-2">
         <button

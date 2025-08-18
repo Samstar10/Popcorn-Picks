@@ -26,3 +26,12 @@ export async function fetchSimilar(id: string) {
   const { data } = await api.get<{ results: any[] }>(`/movie/${id}/similar`);
   return data;
 }
+
+export async function fetchRecommendationsByGenres(genreIds: number[]) {
+  if (!genreIds.length) return { results: [] as any[] };
+  const { data } = await api.get("/discover", {
+    params: { with_genres: genreIds.join(","), sort_by: "popularity.desc" },
+  });
+  return data as { results: any[] };
+}
+

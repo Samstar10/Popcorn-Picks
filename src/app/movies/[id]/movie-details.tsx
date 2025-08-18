@@ -28,6 +28,8 @@ export default function MovieDetailsClient({ id }: { id: string }) {
 
   const m = detailsQuery.data as any;
 
+  const genreIds = Array.isArray(m.genres) ? m.genres.map((g: any) => g.id) : m.genre_ids ?? [];
+
   return (
     <article className="grid md:grid-cols-[200px_1fr] gap-6">
       {m.poster_path && (
@@ -48,6 +50,7 @@ export default function MovieDetailsClient({ id }: { id: string }) {
               title: m.title,
               poster_path: m.poster_path,
               overview: m.overview,
+              genre_ids: genreIds,
             }}
           />
           <WatchlistButton
@@ -56,6 +59,7 @@ export default function MovieDetailsClient({ id }: { id: string }) {
               title: m.title,
               poster_path: m.poster_path,
               overview: m.overview,
+              genre_ids: genreIds,
             }}
           />
         </div>
