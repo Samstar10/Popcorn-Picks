@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useStore } from "../store";
@@ -14,9 +14,7 @@ export default function MoviesPage() {
   const { data, isPending, fetchStatus, refetch } = useQuery<MoviesPageData>({
     queryKey: ["movies", query, page],
     queryFn: () => (query ? searchMovies(query, page) : fetchPopular(page)),
-    // v5 replacement for keepPreviousData:
     placeholderData: (prev) => prev,
-    // optional: small stale time so we don't refetch too aggressively
     staleTime: 60_000,
   });
 
@@ -24,7 +22,6 @@ export default function MoviesPage() {
 
   useEffect(() => {
     setPage(1);
-    // refetch is optional because queryKey changed; keeping it explicit is fine:
     refetch();
   }, [query, refetch]);
 
@@ -43,7 +40,9 @@ export default function MoviesPage() {
 
       {isPending && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)}
+          {Array.from({ length: 8 }).map((_, i) => (
+            <SkeletonCard key={i} />
+          ))}
         </div>
       )}
 
@@ -57,7 +56,7 @@ export default function MoviesPage() {
         <button
           disabled={page <= 1 || isFetching}
           className="rounded border px-3 py-1 disabled:opacity-50"
-          onClick={() => setPage(p => Math.max(1, p - 1))}
+          onClick={() => setPage((p) => Math.max(1, p - 1))}
         >
           Prev
         </button>
@@ -69,7 +68,7 @@ export default function MoviesPage() {
         <button
           disabled={isFetching || (data ? page >= data.total_pages : false)}
           className="rounded border px-3 py-1 disabled:opacity-50"
-          onClick={() => setPage(p => p + 1)}
+          onClick={() => setPage((p) => p + 1)}
         >
           Next
         </button>

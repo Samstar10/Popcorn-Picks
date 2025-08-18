@@ -1,4 +1,3 @@
-// src/app/api/tmdb/popular/route.ts
 import { NextResponse } from 'next/server';
 import { tmdbServer } from '../../../services/api/tmdb-server';
 

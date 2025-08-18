@@ -13,7 +13,7 @@ export default function MovieDetailsClient({ id }: { id: string }) {
   if (isPending) return <p>Loading…</p>;
   if (error) return <p>Failed to load.</p>;
 
-  const m = data as any; // or type it if you have a MovieDetails type
+  const m = data as any;
   return (
     <article className="grid md:grid-cols-[200px_1fr] gap-6">
       {m.poster_path && (
@@ -34,7 +34,8 @@ export default function MovieDetailsClient({ id }: { id: string }) {
             <ul className="text-sm text-gray-600 grid grid-cols-2 md:grid-cols-3 gap-x-4">
               {m.credits.cast.slice(0, 12).map((c: any) => (
                 <li key={c.cast_id}>
-                  {c.name} <span className="text-gray-400">as</span> {c.character}
+                  {c.name} <span className="text-gray-400">as</span>{" "}
+                  {c.character}
                 </li>
               ))}
             </ul>
