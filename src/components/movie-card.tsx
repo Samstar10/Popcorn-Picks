@@ -21,7 +21,6 @@ export function MovieCard({
       className="group block rounded-lg bg-white hover:shadow-md transition-shadow"
       data-testid="movie-card"
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
       {movie.poster_path ? (
         <img
           src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}

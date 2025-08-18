@@ -24,6 +24,7 @@ export function RecommendationsClient() {
     <section>
       <h2 className="text-xl font-semibold mb-3">Recommended For You</h2>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
         {data?.results?.slice(0, 8).map((m: any) => (
           <MovieCard key={m.id} movie={m} />
         ))}

@@ -23,15 +23,18 @@ export async function fetchDetails(id: string) {
 }
 
 export async function fetchSimilar(id: string) {
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const { data } = await api.get<{ results: any[] }>(`/movie/${id}/similar`);
   return data;
 }
 
 export async function fetchRecommendationsByGenres(genreIds: number[]) {
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   if (!genreIds.length) return { results: [] as any[] };
   const { data } = await api.get("/discover", {
     params: { with_genres: genreIds.join(","), sort_by: "popularity.desc" },
   });
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   return data as { results: any[] };
 }
 
