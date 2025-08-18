@@ -1,28 +1,48 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useSession, signIn } from "next-auth/react";
 import Link from "next/link";
 
 import { useStore } from "../store";
-import { fetchPopular, searchMovies } from "../services/api/tmdb";
+import {
+  discoverMovies,
+  fetchPopular,
+  searchMovies,
+} from "../services/api/tmdb";
 import { MovieSummary, MoviesPageData } from "../interfaces/movies";
 
 import { SkeletonCard } from "@/components/skeleton-card";
 import { MovieCard } from "@/components/movie-card";
 import AuthButtons from "@/components/auth-buttons";
+import FilterBar from "@/features/filters/filter-bar";
 import { RecommendationsClient } from "@/features/recommendations/client";
 
 export default function MoviesPage() {
-  const { query, setQuery } = useStore();
+  const { query, setQuery, selectedGenres, sortBy } = useStore();
   const [page, setPage] = useState(1);
   const { status } = useSession();
   const isAuthed = status === "authenticated";
 
+  const filtersActive = useMemo(
+    () => !!query || selectedGenres.length > 0 || !!sortBy,
+    [query, selectedGenres, sortBy]
+  );
+
   const { data, isPending, fetchStatus, refetch } = useQuery<MoviesPageData>({
-    queryKey: ["movies", query, page],
-    queryFn: () => (query ? searchMovies(query, page) : fetchPopular(page)),
+    queryKey: ["movies", { query, selectedGenres, sortBy, page }],
+    queryFn: () => {
+      if (query) return searchMovies(query, page);
+      if (selectedGenres.length > 0 || sortBy !== "popularity.desc") {
+        return discoverMovies({
+          page,
+          with_genres: selectedGenres.join(","),
+          sort_by: sortBy,
+        });
+      }
+      return fetchPopular(page);
+    },
     placeholderData: (prev) => prev,
     staleTime: 60_000,
   });
@@ -32,7 +52,7 @@ export default function MoviesPage() {
   useEffect(() => {
     setPage(1);
     refetch();
-  }, [query, refetch]);
+  }, [query, selectedGenres, sortBy, refetch]);
 
   return (
     <section className="space-y-6">
@@ -53,6 +73,8 @@ export default function MoviesPage() {
         </div>
       </header>
 
+      <FilterBar />
+
       {isPending && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {Array.from({ length: 8 }).map((_, i) => (
@@ -67,7 +89,7 @@ export default function MoviesPage() {
         ))}
       </div>
 
-      {!query && (
+      {!filtersActive && (
         <>
           {isAuthed ? (
             <RecommendationsClient />
@@ -90,11 +112,9 @@ export default function MoviesPage() {
         >
           Prev
         </button>
-
         <span className="text-sm text-gray-600">
           Page {page} {isFetching ? "(loading…)" : ""}
         </span>
-
         <button
           disabled={isFetching || (data ? page >= data.total_pages : false)}
           className="rounded border px-3 py-1 disabled:opacity-50"

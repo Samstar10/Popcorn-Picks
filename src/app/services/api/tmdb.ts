@@ -35,3 +35,31 @@ export async function fetchRecommendationsByGenres(genreIds: number[]) {
   return data as { results: any[] };
 }
 
+export async function fetchGenres() {
+  const { data } = await api.get<{ genres: { id: number; name: string }[] }>(
+    "/genre/movie/list"
+  );
+  return data.genres;
+}
+
+export async function discoverMovies(params: {
+  page: number;
+  with_genres?: string;
+  sort_by?: string;
+  query?: string;
+}) {
+  if (params.query) {
+    const { data } = await api.get("/search", {
+      params: { query: params.query, page: params.page },
+    });
+    return data;
+  }
+  const { data } = await api.get("/discover", {
+    params: {
+      with_genres: params.with_genres,
+      sort_by: params.sort_by ?? "popularity.desc",
+      page: params.page,
+    },
+  });
+  return data;
+}
