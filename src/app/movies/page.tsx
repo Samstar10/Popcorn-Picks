@@ -6,6 +6,7 @@ import { SkeletonCard } from "@/components/skeleton-card";
 import { MovieCard } from "@/components/movie-card";
 import { fetchPopular, searchMovies } from "../services/api/tmdb";
 import { MovieSummary, MoviesPageData } from "../interfaces/movies";
+import AuthButtons from "@/components/auth-buttons";
 
 export default function MoviesPage() {
   const { query, setQuery } = useStore();
@@ -29,13 +30,16 @@ export default function MoviesPage() {
     <section className="space-y-6">
       <header className="flex items-center gap-3">
         <h1 className="text-2xl font-bold">Popcorn Picks</h1>
-        <input
-          aria-label="Search movies"
-          placeholder="Search movies"
-          className="rounded-md border border-gray-300 px-3 py-2 w-full max-w-md focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
+        <div>
+          <input
+            aria-label="Search movies"
+            placeholder="Search movies"
+            className="rounded-md border border-gray-300 px-3 py-2 w-full max-w-md focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <AuthButtons />
+        </div>
       </header>
 
       {isPending && (
