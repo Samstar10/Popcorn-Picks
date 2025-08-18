@@ -12,3 +12,18 @@ export type MoviesPageData = {
   page: number;
   total_pages: number;
 };
+
+export type ListKind = "favorites" | "watchlist";
+
+export type SavedMovie = {
+  id: number;
+  title: string;
+  poster_path?: string;
+  overview?: string;
+  addedAt: number;    
+};
+
+export type UserListsState = {
+  favorites: Record<number, SavedMovie>;
+  watchlist: Record<number, SavedMovie>;
+};

@@ -1,19 +1,33 @@
 "use client";
 
-import { fetchDetails } from "@/app/services/api/tmdb";
+import { fetchDetails, fetchSimilar } from "@/app/services/api/tmdb";
+import { FavoriteButton, WatchlistButton } from "@/components/list-buttons";
+import { MovieCard } from "@/components/movie-card";
 import { useQuery } from "@tanstack/react-query";
+import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 
 export default function MovieDetailsClient({ id }: { id: string }) {
-  const { data, isPending, error } = useQuery({
+  const { status } = useSession();
+  const isAuthed = status === "authenticated";
+
+  // Always call both queries
+  const detailsQuery = useQuery({
     queryKey: ["movie", id],
     queryFn: () => fetchDetails(id),
   });
 
-  if (isPending) return <p>Loading…</p>;
-  if (error) return <p>Failed to load.</p>;
+  const similarQuery = useQuery({
+    queryKey: ["movie", id, "similar"],
+    queryFn: () => fetchSimilar(id),
+    enabled: isAuthed, // won't actually fetch until authed
+  });
 
-  const m = data as any;
+  if (detailsQuery.isPending) return <p>Loading…</p>;
+  if (detailsQuery.error) return <p>Failed to load.</p>;
+
+  const m = detailsQuery.data as any;
+
   return (
     <article className="grid md:grid-cols-[200px_1fr] gap-6">
       {m.poster_path && (
@@ -27,6 +41,24 @@ export default function MovieDetailsClient({ id }: { id: string }) {
       )}
       <div>
         <h1 className="text-3xl font-bold">{m.title}</h1>
+        <div className="mt-3 flex gap-2">
+          <FavoriteButton
+            movie={{
+              id: m.id,
+              title: m.title,
+              poster_path: m.poster_path,
+              overview: m.overview,
+            }}
+          />
+          <WatchlistButton
+            movie={{
+              id: m.id,
+              title: m.title,
+              poster_path: m.poster_path,
+              overview: m.overview,
+            }}
+          />
+        </div>
         <p className="mt-2 text-gray-700">{m.overview}</p>
         {m.credits?.cast?.length ? (
           <div className="mt-4">
@@ -41,6 +73,28 @@ export default function MovieDetailsClient({ id }: { id: string }) {
             </ul>
           </div>
         ) : null}
+      </div>
+
+      <div className="md:col-span-2 mt-8">
+        <h2 className="text-xl font-semibold mb-3">Recommended</h2>
+        {isAuthed ? (
+          similarQuery.data?.results?.length ? (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {similarQuery.data.results.slice(0, 8).map((m: any) => (
+                <MovieCard key={m.id} movie={m} />
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm text-gray-600">No recommendations yet.</p>
+          )
+        ) : (
+          <button
+            className="rounded border px-3 py-1 text-sm"
+            onClick={() => signIn("github")}
+          >
+            Sign in to see personalized picks
+          </button>
+        )}
       </div>
     </article>
   );

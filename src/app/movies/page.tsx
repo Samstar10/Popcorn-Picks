@@ -7,6 +7,7 @@ import { MovieCard } from "@/components/movie-card";
 import { fetchPopular, searchMovies } from "../services/api/tmdb";
 import { MovieSummary, MoviesPageData } from "../interfaces/movies";
 import AuthButtons from "@/components/auth-buttons";
+import Link from "next/link";
 
 export default function MoviesPage() {
   const { query, setQuery } = useStore();
@@ -39,6 +40,7 @@ export default function MoviesPage() {
             onChange={(e) => setQuery(e.target.value)}
           />
           <AuthButtons />
+          <Link href="/lists" className="text-sm underline">My Lists</Link>
         </div>
       </header>
 

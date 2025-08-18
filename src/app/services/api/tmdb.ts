@@ -21,3 +21,8 @@ export async function fetchDetails(id: string) {
   const { data } = await api.get(`/movie/${id}`);
   return data;
 }
+
+export async function fetchSimilar(id: string) {
+  const { data } = await api.get<{ results: any[] }>(`/movie/${id}/similar`);
+  return data;
+}
