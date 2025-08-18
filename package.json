@@ -7,7 +7,9 @@
     "build": "NEXT_DISABLE_ESLINT=1 next build",
     "start": "next start",
     "lint": "next lint",
-    "cypress": "npx cypress open"
+    "cypress": "npx cypress open",
+    "typecheck": "tsc --noEmit",
+    "test": "jest"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.85.3",
