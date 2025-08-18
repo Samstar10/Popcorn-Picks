@@ -3,6 +3,7 @@
 import { fetchDetails, fetchSimilar } from "@/app/services/api/tmdb";
 import { FavoriteButton, WatchlistButton } from "@/components/list-buttons";
 import { MovieCard } from "@/components/movie-card";
+import { Rating } from "@/components/rating";
 import { useQuery } from "@tanstack/react-query";
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
@@ -30,7 +31,9 @@ export default function MovieDetailsClient({ id }: { id: string }) {
   const m = detailsQuery.data as any;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const genreIds = Array.isArray(m.genres) ? m.genres.map((g: any) => g.id) : m.genre_ids ?? [];
+  const genreIds = Array.isArray(m.genres)
+    ? m.genres.map((g: any) => g.id)
+    : m.genre_ids ?? [];
 
   return (
     <article className="grid md:grid-cols-[200px_1fr] gap-6">
@@ -64,6 +67,9 @@ export default function MovieDetailsClient({ id }: { id: string }) {
               genre_ids: genreIds,
             }}
           />
+        </div>
+        <div className="mt-2">
+          <Rating voteAverage={m.vote_average} />
         </div>
         <p className="mt-2 text-gray-700">{m.overview}</p>
         {m.credits?.cast?.length ? (
