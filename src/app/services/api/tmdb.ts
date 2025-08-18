@@ -66,3 +66,46 @@ export async function discoverMovies(params: {
   });
   return data;
 }
+
+export async function discoverByGenre(genreId: number, page = 1) {
+  const { data } = await api.get<MoviesPageData>("/discover", {
+    params: { with_genres: String(genreId), sort_by: "popularity.desc", page },
+  });
+  return data;
+}
+
+export async function fetchRecommendationsByGenresPaged(
+  genreIds: number[],
+  page = 1
+) {
+  if (!genreIds.length)
+    return { results: [], page: 1, total_pages: 1 } as MoviesPageData;
+
+  const { data } = await api.get<MoviesPageData>("/discover", {
+    params: {
+      with_genres: genreIds.join(","),
+      sort_by: "popularity.desc",
+      page,
+    },
+  });
+  return data;
+}
+
+export async function fetchSearchMoviesPaged(query: string, page = 1) {
+  const { data } = await api.get<MoviesPageData>("/search", {
+    params: { query, page },
+  });
+  return data;
+}
+
+export async function fetchDiscoverMoviesPaged(opts: {
+  genre: number;
+  sortBy: string;
+  page?: number;
+}) {
+  const { genre, sortBy, page = 1 } = opts;
+  const { data } = await api.get<MoviesPageData>("/discover", {
+    params: { with_genres: String(genre), sort_by: sortBy, page },
+  });
+  return data;
+}
