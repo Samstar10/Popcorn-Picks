@@ -14,7 +14,7 @@ import type {
   MovieSummary,
   MoviesPageData,
 } from "@/app/interfaces/movies";
-import { Spinner } from "@/components/loading-state";
+import { Loader } from "@/components/loading-state";
 
 export default function MovieDetailsClient({ id }: { id: string }) {
   const { status } = useSession();
@@ -31,7 +31,7 @@ export default function MovieDetailsClient({ id }: { id: string }) {
     enabled: isAuthed,
   });
 
-  if (detailsQuery.isPending) return <Spinner />;
+  if (detailsQuery.isPending) return <Loader />;
   if (detailsQuery.error) return <p>Failed to load.</p>;
 
   const m = detailsQuery.data;
