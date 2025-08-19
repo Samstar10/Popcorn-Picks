@@ -1,4 +1,4 @@
-import { MoviesPageData } from "@/app/interfaces/movies";
+import { MovieDetails, MoviesPageData, RecData } from "@/app/interfaces/movies";
 import axios from "axios";
 
 const api = axios.create({ baseURL: "/api/tmdb" });
@@ -18,24 +18,21 @@ export async function searchMovies(q: string, page = 1) {
 }
 
 export async function fetchDetails(id: string) {
-  const { data } = await api.get(`/movie/${id}`);
+  const { data } = await api.get<MovieDetails>(`/movie/${id}`);
   return data;
 }
 
 export async function fetchSimilar(id: string) {
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  const { data } = await api.get<{ results: any[] }>(`/movie/${id}/similar`);
+  const { data } = await api.get<MoviesPageData>(`/movie/${id}/similar`);
   return data;
 }
 
-export async function fetchRecommendationsByGenres(genreIds: number[]) {
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  if (!genreIds.length) return { results: [] as any[] };
-  const { data } = await api.get("/discover", {
+export async function fetchRecommendationsByGenres(genreIds: number[]): Promise<RecData> {
+  if (!genreIds.length) return { results: [] };
+  const { data } = await api.get<MoviesPageData>("/discover", {
     params: { with_genres: genreIds.join(","), sort_by: "popularity.desc" },
   });
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  return data as { results: any[] };
+  return { results: data.results };
 }
 
 export async function fetchGenres() {
