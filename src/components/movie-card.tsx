@@ -1,11 +1,18 @@
 "use client";
 import Link from "next/link";
 import { FavoriteButton, WatchlistButton } from "./list-buttons";
+import Image from "next/image";
 
 export function MovieCard({
   movie,
 }: {
-  movie: { id: number; title: string; poster_path?: string; overview?: string; genre_ids?: number[] };
+  movie: {
+    id: number;
+    title: string;
+    poster_path?: string;
+    overview?: string;
+    genre_ids?: number[];
+  };
 }) {
   const mini = {
     id: movie.id,
@@ -22,10 +29,14 @@ export function MovieCard({
       data-testid="movie-card"
     >
       {movie.poster_path ? (
-        <img
+        <Image
           src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
           alt={movie.title}
-          className="rounded-t-lg w-full h-72 object-cover"
+          width={228}
+          height={342}
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 15vw"
+          loading="lazy"
+          className="rounded-lg w-full h-auto object-cover"
         />
       ) : (
         <div className="rounded-t-lg h-72 bg-gray-200" />

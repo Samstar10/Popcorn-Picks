@@ -21,7 +21,9 @@ export default function VerticalSearchResults({ query }: { query: string }) {
       getNextPageParam: (lastPage) =>
         lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
       enabled: query.trim().length > 0,
-      staleTime: 60_000,
+      staleTime: 120_000,
+      gcTime: 60_000,
+      retry: 1
     });
 
   const sentinelRef = useRef<HTMLDivElement | null>(null);

@@ -24,9 +24,9 @@ export default function HorizontalRow({
     isFetchingNextPage,
     status,
   } = useInfiniteQuery<
-    MoviesPageData,                       // page shape
+    MoviesPageData,                     
     Error,
-    InfiniteData<MoviesPageData, number>, // enables data.pages
+    InfiniteData<MoviesPageData, number>, 
     (string | number | string[])[],
     number
   >({
@@ -36,14 +36,14 @@ export default function HorizontalRow({
     getNextPageParam: (lastPage) =>
       lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
     enabled,
-    staleTime: 60_000,
+    staleTime: 120_000,
+    gcTime: 60_000,
+    retry: 1
   });
 
-  // The actual scrolling container and the sentinel at the end of the row
   const scrollerRef = useRef<HTMLDivElement | null>(null);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
 
-  // Observe the sentinel INSIDE the scroll container
   useEffect(() => {
     if (!hasNextPage || !scrollerRef.current || !sentinelRef.current) return;
 
@@ -55,8 +55,8 @@ export default function HorizontalRow({
         }
       },
       {
-        root: scrollerRef.current, // <-- key: observe within the horizontal scroller
-        rootMargin: "0px 600px 0px 0px", // prefetch a bit before the end on the right
+        root: scrollerRef.current,
+        rootMargin: "0px 600px 0px 0px", 
         threshold: 0.1,
       }
     );
@@ -92,7 +92,6 @@ export default function HorizontalRow({
           {items.map((m) => (
             <MovieCardSm key={m.id} movie={m} />
           ))}
-          {/* sentinel sits at the very end of the horizontal row */}
           {hasNextPage ? <div ref={sentinelRef} className="w-1 shrink-0" /> : null}
         </div>
       </div>

@@ -6,5 +6,10 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
   const { data } = await tmdbServer.get(`/movie/${id}`, {
     params: { append_to_response: "credits,release_dates" },
   });
-  return NextResponse.json(data, { status: 200 });
+  return NextResponse.json(data, { 
+    status: 200,
+    headers: {
+      "Cache-Control": "public, s-maxage=120, stale-while-revalidate=240",
+    }
+  });
 }
