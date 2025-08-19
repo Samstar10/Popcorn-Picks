@@ -27,7 +27,9 @@ export async function fetchSimilar(id: string) {
   return data;
 }
 
-export async function fetchRecommendationsByGenres(genreIds: number[]): Promise<RecData> {
+export async function fetchRecommendationsByGenres(
+  genreIds: number[]
+): Promise<RecData> {
   if (!genreIds.length) return { results: [] };
   const { data } = await api.get<MoviesPageData>("/discover", {
     params: { with_genres: genreIds.join(","), sort_by: "popularity.desc" },
@@ -103,6 +105,20 @@ export async function fetchDiscoverMoviesPaged(opts: {
   const { genre, sortBy, page = 1 } = opts;
   const { data } = await api.get<MoviesPageData>("/discover", {
     params: { with_genres: String(genre), sort_by: sortBy, page },
+  });
+  return data;
+}
+
+export async function fetchTrendingPaged(page = 1): Promise<MoviesPageData> {
+  const { data } = await api.get<MoviesPageData>("/trending", {
+    params: { page },
+  });
+  return data;
+}
+
+export async function fetchTopRatedPaged(page = 1): Promise<MoviesPageData> {
+  const { data } = await api.get<MoviesPageData>("/top_rated", {
+    params: { page },
   });
   return data;
 }

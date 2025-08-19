@@ -14,11 +14,13 @@
   "dependencies": {
     "@tanstack/react-query": "^5.85.3",
     "axios": "^1.11.0",
+    "keen-slider": "^6.8.6",
     "next": "15.4.6",
     "next-auth": "^4.24.11",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-hook-form": "^7.62.0",
+    "react-loader-spinner": "^6.1.6",
     "zod": "^4.0.17",
     "zustand": "^5.0.7"
   },
