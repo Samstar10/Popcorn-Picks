@@ -2,6 +2,7 @@
 
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import GithubPNG from "../../public/github.png";
 
 export default function AuthButtons() {
   const { data: session, status } = useSession();
@@ -14,7 +15,7 @@ export default function AuthButtons() {
   ) : (
     <button className="rounded border px-1 py-1 lg:px-4 lg:py-2 flex text-xs lg:text-base items-center gap-2 font-bold" onClick={() => signIn("github")}>
       <Image 
-        src={require("../../public/github.png")}
+        src={GithubPNG}
         alt="GitHub"
         width={24}
         height={24}

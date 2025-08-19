@@ -19,9 +19,10 @@ import {
 } from "@/app/services/api/tmdb";
 import HorizontalRow from "@/features/rows/horizontal-row";
 import type { MovieSummary } from "@/app/interfaces/movies";
+import { KeenSliderPlugin } from "keen-slider";
 
-function AutoPlay(delay = 4000) {
-  return (slider: any) => {
+function AutoPlay(delay = 4000): KeenSliderPlugin {
+  return (slider) => {
     let timeout: ReturnType<typeof setTimeout> | null = null;
     const clearNextTimeout = () => timeout && clearTimeout(timeout);
     const nextTimeout = () => {
@@ -71,7 +72,7 @@ export default function MoviesPage() {
       drag: true,
       slides: { perView: 1 },
     },
-    [AutoPlay(4000)]
+    [AutoPlay(8000)]
   );
 
   const curated = (genres ?? []).filter((g) =>

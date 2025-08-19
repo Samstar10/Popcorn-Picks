@@ -5,7 +5,7 @@ import { useLists } from "@/features/lists/store";
 import { useQuery } from "@tanstack/react-query";
 import { fetchRecommendationsByGenres } from "@/app/services/api/tmdb";
 import { MovieCard } from "@/components/movie-card";
-import type { MovieSummary, RecData } from "@/app/interfaces/movies";
+import type { RecData } from "@/app/interfaces/movies";
 
 export function RecommendationsClient() {
   const favMap = useLists((s) => s.favorites);
