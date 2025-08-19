@@ -45,6 +45,7 @@ export type MovieDetails = {
   id: number;
   title: string;
   poster_path?: string;
+  backdrop_path?: string;
   overview?: string;
   genre_ids?: number[];
   vote_average?: number;
