@@ -8,8 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "cypress": "npx cypress open",
-    "typecheck": "tsc --noEmit",
-    "test": "jest"
+    "typecheck": "tsc -p tsconfig.app.json --noEmit",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:ci": "jest --ci --runInBand"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.85.3",
@@ -43,6 +45,8 @@
     "jest-environment-jsdom": "^30.0.5",
     "tailwindcss": "^4",
     "ts-jest": "^29.4.1",
-    "typescript": "^5"
+    "ts-node": "^10.9.2",
+    "typescript": "^5",
+    "whatwg-fetch": "^3.6.20"
   }
 }
