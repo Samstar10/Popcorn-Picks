@@ -87,7 +87,7 @@ export default function HorizontalRow({
   return (
     <section className="space-y-2">
       <h2 className="text-lg font-semibold">{title}</h2>
-      <div ref={scrollerRef} className="overflow-x-auto">
+      <div ref={scrollerRef} className="overflow-x-auto no-scrollbar">
         <div className="flex gap-3 pr-8">
           {items.map((m) => (
             <MovieCardSm key={m.id} movie={m} />
