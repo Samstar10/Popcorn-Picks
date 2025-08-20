@@ -95,22 +95,22 @@ export default function MoviesPage() {
             : "absolute inset-x-0 top-0 z-20 flex w-full items-center justify-between p-6 text-white"
         }
       >
-        <div className="flex items-center gap-2 lg:gap-6 w-full max-w-5xl">
+        <div className="flex items-center gap-2 lg:gap-6 w-1/2 max-w-5xl">
           <h1 className="text-base lg:text-2xl font-bold">Popcorn Picks</h1>
           <input
             type="text"
             placeholder="Search movies…"
             className={
               hasQuery
-                ? "w-full max-w-xl rounded-md border border-gray-300 px-1 py-1 lg:px-4 lg:py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 text-xs lg:text-base"
-                : "w-full max-w-xl rounded-md border border-white/50 bg-white/10 px-1 py-1 lg:px-4 lg:py-2 text-white placeholder-white/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 text-xs lg:text-base"
+                ? "w-full max-w-xl rounded-md border border-gray-300 px-1 py-1 lg:px-4 lg:py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 text-xs lg:text-base"
+                : "w-full max-w-xl rounded-md border border-white/50 bg-white/10 px-1 py-1 lg:px-4 lg:py-2 text-white placeholder-white/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 text-xs lg:text-base"
             }
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
 
-        <div className="ml-6 flex items-center gap-1 lg:gap-4">
+        <div className="ml-6 flex items-center gap-1 lg:gap-4 w-1/2 max-w-2xl justify-end">
           <Link
             href="/lists"
             className={
@@ -146,7 +146,7 @@ export default function MoviesPage() {
                     )}
                     <div className="absolute inset-0 bg-black/50" />
                     <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-center text-white max-w-2xl px-4">
-                      <h2 className="text-3xl font-bold drop-shadow-lg">
+                      <h2 className="text-7xl font-bold drop-shadow-lg">
                         {m.title}
                       </h2>
                       {m.overview && (
