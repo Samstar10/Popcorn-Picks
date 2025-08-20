@@ -2,7 +2,11 @@
 import { useLists } from '@/features/lists/store'
 
 beforeEach(() => {
-  useLists.setState({ favorites: {}, watchlist: {} } as any)
+  useLists.setState((s) => ({
+    ...s,
+    favorites: {},
+    watchlist: {},
+  }))
 })
 
 test('add duplicate keeps latest addedAt and no duplicates in map', () => {
