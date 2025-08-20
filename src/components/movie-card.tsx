@@ -18,7 +18,7 @@ export function MovieCard({
       href={`/movies/${movie.id}`}
       data-testid="movie-card"
       aria-label={movie.title}
-      className="group relative block overflow-hidden rounded-lg bg-white transition-shadow hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+      className="group h-full relative block overflow-hidden rounded-lg bg-white transition-shadow hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
     >
       {movie.poster_path ? (
         <Image
@@ -50,7 +50,7 @@ export function MovieCard({
           group-hover:opacity-100 group-focus-visible:opacity-100
         "
       >
-        <h3 className="text-sm font-semibold text-white drop-shadow-sm line-clamp-2">
+        <h3 className="text-5xl font-semibold text-white drop-shadow-sm line-clamp-2">
           {movie.title}
         </h3>
         {movie.overview ? (
