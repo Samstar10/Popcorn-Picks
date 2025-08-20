@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎬 Movie Recommendations App
 
-## Getting Started
+A Next.js + TypeScript app for browsing movies, managing favorites and watchlists, and discovering recommendations powered by TMDB.  
 
-First, run the development server:
+Authentication is handled by **NextAuth.js** (GitHub OAuth by default). State is managed with **Zustand**, styled with **TailwindCSS**, and tested with **Jest**
 
+---
+
+## 🚀 Features
+- 🔐 Authentication via NextAuth.js  
+- 🎥 Personalized movie recommendations  
+- 📂 Favorites & watchlist state (Zustand)  
+- 📊 Infinite scrolling rows for genres/trending  
+- 🧪 Jest unit tests 
+- ⚡ Optimized with Next.js App Router & RSC  
+
+---
+
+## 🛠️ Tech Stack
+- **Framework**: Next.js 14+ (App Router)  
+- **Language**: TypeScript  
+- **Auth**: NextAuth.js  
+- **State**: Zustand  
+- **Styling**: TailwindCSS  
+- **Testing**: Jest, React Testing Library  
+- **API**: TMDB  
+
+---
+
+## ⚙️ Getting Started
+
+### 1. Clone and install
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-org/movie-recs-app.git
+cd movie-recs-app
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Environment Variables
+Create .env.local
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_generated_secret
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# OAuth (GitHub default)
+GITHUB_ID=your_client_id
+GITHUB_SECRET=your_client_secret
 
-## Learn More
+# TMDB
+TMDB_API_KEY=your_tmdb_api_key
+```
 
-To learn more about Next.js, take a look at the following resources:
+Generate a secret
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+openssl rand -base64 32
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 3. Run dev server
+```bash
+npm run dev
+```
 
-## Deploy on Vercel
+## 🧪 Testing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Unit and Integration Testing
+```bash
+npm run test
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🤝 Contributing
+- Fork
+- Branch: git checkout -b feat/your-feature
+- Commit: git commit -m "Add feature"
+- Push & open PR
+
+
