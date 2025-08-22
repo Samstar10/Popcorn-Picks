@@ -1,8 +1,8 @@
 "use client";
 
-import { ListKind, SavedMovie, UserListsState } from "@/app/interfaces/movies";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { ListKind, SavedMovie, UserListsState } from "../../app/interfaces/movies";
 
 type Actions = {
   add: (kind: ListKind, movie: Omit<SavedMovie, "addedAt">) => void;
